@@ -4,10 +4,8 @@ from gbpot import gbpot
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 range = (-3, 3, .01)
-kappa,kappapr,mu,nu = 2., 2., .1, 1
 u1 = np.array([1,0,0])
 u2 = np.array([1,0,0])
-
 xx, yy, zz = np.meshgrid(np.arange(*range),np.arange(*range),[0])
 P          = np.array((xx,yy,zz)).T.reshape(-1,3)
 
