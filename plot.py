@@ -26,7 +26,7 @@ for i,p in enumerate(params):
     U       = gbpot(P,u1,u2, *p)
     U[U>0]  = np.nan
 
-    im      = ax[i].contour(xx[:,:,0], yy[:,:,0], U.reshape(len(xx),len(xx)), levels=100)
+    im      = ax[i].contour(xx[:,:,0], yy[:,:,0], U.reshape(len(xx),len(xx)), levels=10)
     ax[i].text(0.01, 0.94, f"$\kappa={p[0]}, \kappa'={p[1]}, \mu={p[2]}, \\nu={p[3]}$", transform=ax[i].transAxes)
     ax[i].set_aspect('equal', 'box')
 
