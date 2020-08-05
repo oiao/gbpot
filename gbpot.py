@@ -7,11 +7,11 @@ def gbpot(dr, u1, u2, kappa=1., kappapr=1., mu=1., nu=1.):
     Parameters
     ----------
     dr : ndarray
-        A `(m,n)` array of pairwise distances
+        A `(m,n)` array of pairwise distance vectors
     u1 : ndarray
-        A `(m,n)` array of the `i`th particle orientations
+        A `(m,n)` array of the `i`th particle orientation vectors
     u2 : ndarray
-        A `(m,n)` array of the `j`th particle orientations
+        A `(m,n)` array of the `j`th particle orientation vectors
     kappa: float > 0
         Shape anisotropy parameter
     kappapr: float > 0
