@@ -1,13 +1,43 @@
 import numpy as np
-np.seterr(all='raise')
 
-def gb(dr, u1, u2, kappa=1, kappapr=1, mu=1, nu=1):
+def gbpot(dr, u1, u2, kappa=1., kappapr=1., mu=1., nu=1.):
+    """
+    Implementation of the Gay-Berne potential [1]_, [2]_.
+
+    Parameters
+    ----------
+    dr : ndarray
+        A `(m,n)` array of pairwise distances
+    u1 : ndarray
+        A `(m,n)` array of the `i`th particle orientations
+    u2 : ndarray
+        A `(m,n)` array of the `j`th particle orientations
+    kappa: float > 0
+        Shape anisotropy parameter
+    kappapr: float > 0
+        Interaction anisotropy paramter
+    mu : float
+        Anisotropic potential locality
+    nu: float
+        Anisotropic potential depth
+
+
+    References
+    ----------
+    .. [1] Gay, J. G.; Berne, B. J. J. Chem. Phys. 1981, 74, 3316–3319
+    .. [2] Bates, M. A.; Luckhurst, G. R. J. Chem. Phys. 1996, 104, 6696–6709
+    """
     eps0, sigma0, sigma_ff = 1., 1., 1.
-    norm  = np.linalg.norm(dr)
-    dr    = dr/norm
-    u1    = u1 / np.linalg.norm(u1)
-    u2    = u2 / np.linalg.norm(u2)
-    u1r, u2r, u1u2 = u1.dot(dr), u2.dot(dr), u1.dot(u2)
+    dr    = np.atleast_2d(dr)
+    u1    = np.atleast_2d(u1)
+    u2    = np.atleast_2d(u2)
+    norm  = np.linalg.norm(dr, axis=-1)
+    dr    = dr/norm[:,None]
+    u1    = u1 / np.linalg.norm(u1, axis=-1)[:,None]
+    u2    = u2 / np.linalg.norm(u2, axis=-1)[:,None]
+    u1r   = np.einsum('ij,ij->i', u1, dr)
+    u2r   = np.einsum('ij,ij->i', u2, dr)
+    u1u2  = np.einsum('ij,ij->i', u1, u2)
     pur   = (u1r + u2r)**2
     nur   = (u1r - u2r)**2
 
@@ -31,8 +61,3 @@ def gb(dr, u1, u2, kappa=1, kappapr=1, mu=1, nu=1):
     rho12 = rho6**2
 
     return 4*eps*(rho12-rho6)
-
-
-x = np.random.randn(3,3)
-
-np.linalg.norm(x,axis=-1)
